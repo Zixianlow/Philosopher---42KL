@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/02/22 21:02:58 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:01:59 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,38 +52,19 @@ long	get_time(void)
 
 void	print_time(char *s, t_philo_data *data)
 {
-	struct timeval	time;
-	t_philo			*philo;
 	long			t;
 
-	philo = data->vars;
-	gettimeofday(&(time), NULL);
-	t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	if (philo->end > -1 && get_time() < (long)philo->end + philo->time)
-	{
-		sem_wait(data->vars->printing);
-		printf("%ld	%d %s", t - philo->time, data->x, s);
-		sem_post(data->vars->printing);
-	}
-	else if (philo->finish == -1 && philo->die == -1)
-	{
-		sem_wait(data->vars->printing);
-		printf("%ld	%d %s", t - philo->time, data->x, s);
-		sem_post(data->vars->printing);
-	}
+	t = get_time();
+	// sem_wait(data->vars->print);
+	printf("%ld	%d %s", t - data->time, data->x, s);
+	// sem_post(data->vars->print);
 }
 
-void	ft_usleep(int i, t_philo_data *data)
+void	ft_usleep(int i)
 {
-	long			t;
-	t_philo			*philo;
+	long	t;
 
-	philo = data->vars;
 	t = get_time();
 	while (get_time() - t < i)
-	{
-		if (philo->end > -1 && get_time() > (long)philo->end + philo->time)
-			return ;
-		usleep(100);
-	}
+		usleep(500);
 }
