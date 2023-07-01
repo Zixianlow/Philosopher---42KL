@@ -6,28 +6,11 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 15:47:38 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/04 19:01:58 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:16:14 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	philo_fork(t_philo_data *data)
-{
-	sem_wait(data->vars->forks);
-	print_time("has taken a fork\n", data);
-	sem_wait(data->vars->forks);
-	print_time("has taken a fork\n", data);
-	print_time("is eating\n", data);
-	sem_wait(data->vars->death);
-	if (data->eat_count != -1)
-		data->eat_count++;
-	data->eat = get_time();
-	sem_post(data->vars->death);
-	ft_usleep(data->vars->time_to_eat);
-	sem_post(data->vars->forks);
-	sem_post(data->vars->forks);
-}
 
 void	ft_odd_sleep(t_philo_data *data)
 {
@@ -38,25 +21,41 @@ void	ft_odd_sleep(t_philo_data *data)
 	}
 }
 
+void	philo_fork(t_philo_data *data)
+{
+	sem_wait(data->vars->forks);
+	print_time("has taken a fork\n", data);
+	sem_wait(data->vars->forks);
+	print_time("has taken a fork\n", data);
+	print_time("is eating\n", data);
+	sem_wait(data->vars->death);
+	data->eat = get_time();
+	sem_post(data->vars->death);
+	ft_usleep(data->vars->time_to_eat);
+	sem_wait(data->vars->death);
+	if (data->eat_count != -1)
+	{
+		data->eat_count++;
+		if (data->eat_count == data->vars->need_eat_times)
+			sem_post(data->vars->eat);
+	}
+	sem_post(data->vars->death);
+	sem_post(data->vars->forks);
+	sem_post(data->vars->forks);
+}
+
 void	*ft_check_death(void	*philo_data)
 {
 	t_philo_data	*data;
 
 	data = (t_philo_data *)philo_data;
-	while (1)
+	while (get_time() - data->time > data->vars->time_to_die)
 	{
+		ft_usleep(data->vars->time_to_die / 2);
 		sem_wait(data->vars->death);
 		if (get_time() - data->eat > data->vars->time_to_die)
 		{
 			print_time("died\n", data);
-			sem_post(data->vars->stop);
-			break ;
-		}
-		sem_post(data->vars->death);
-		sem_wait(data->vars->death);
-		if (data->eat_count != -1
-			&& data->eat_count >= data->vars->need_eat_times)
-		{
 			sem_post(data->vars->stop);
 			break ;
 		}
@@ -69,9 +68,9 @@ void	ft_philo_start(t_philo_data *data)
 {
 	pthread_t		stop;
 
-	data->eat = get_time();
-	pthread_create(&stop, NULL, &ft_check_death, data);
 	ft_odd_sleep(data);
+	pthread_create(&stop, NULL, &ft_check_death, data);
+	pthread_detach(stop);
 	while (1)
 	{
 		philo_fork(data);
@@ -79,5 +78,4 @@ void	ft_philo_start(t_philo_data *data)
 		ft_usleep(data->vars->time_to_sleep);
 		print_time("is thinking\n", data);
 	}
-	pthread_join(stop, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:01:10 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/04 19:04:55 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:01:11 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,55 @@ void	philo_free(t_philo *philo)
 	int	i;
 
 	i = -1;
-	while (++i < philo->number_of_philo)
-		kill(philo->philo_data[i].pid, SIGKILL);
+	kill(0, SIGINT);
 	sem_close(philo->forks);
 	sem_close(philo->print);
 	sem_close(philo->death);
 	sem_close(philo->stop);
-	free(philo->philo_data);
+}
+
+void	ft_full_eat(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	if (philo->need_eat_times != -1)
+	{
+		if (fork() != 0)
+			return ;
+		while (++i < philo->number_of_philo)
+			sem_wait(philo->eat);
+		waitpid(-1, NULL, 0);
+		kill(0, SIGINT);
+	}
 }
 
 void	ft_create_philo(t_philo *philo)
 {
-	int	i;
+	int				i;
+	t_philo_data	data;
 
 	i = 0;
+	data.vars = philo;
+	if (philo->need_eat_times != -1)
+		data.eat_count = 0;
+	else
+		data.eat_count = -1;
 	while (i < philo->number_of_philo)
 	{
-		philo->philo_data[i].time = get_time();
-		philo->philo_data[i].pid = fork();
-		if (philo->philo_data[i].pid == 0)
+		data.x = i + 1;
+		data.time = get_time();
+		data.eat = get_time();
+		data.pid = fork();
+		if (data.pid == 0)
 		{
-			ft_philo_start(&philo->philo_data[i]);
+			ft_philo_start(&data);
 			exit(0);
 		}
 		i++;
 		usleep(500);
 	}
+	ft_full_eat(philo);
 }
 
 int	main(int ac, char **av)
@@ -57,7 +80,6 @@ int	main(int ac, char **av)
 		free(philo);
 		return (0);
 	}
-	ft_init_philo_data(philo);
 	sem_wait(philo->stop);
 	ft_create_philo(philo);
 	sem_wait(philo->stop);

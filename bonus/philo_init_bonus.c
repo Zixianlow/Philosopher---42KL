@@ -6,32 +6,11 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:28:23 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/04 18:52:54 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:55:33 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	ft_init_philo_data(t_philo *philo)
-{
-	int				i;
-	int				eat;
-	t_philo_data	*data;
-
-	i = 0;
-	data = philo->philo_data;
-	eat = philo->need_eat_times;
-	while (i < philo->number_of_philo)
-	{
-		data[i].x = i + 1;
-		data[i].vars = philo;
-		if (eat != -1)
-			data[i].eat_count = 0;
-		else
-			data[i].eat_count = -1;
-		i++;
-	}
-}
 
 void	ft_init_philo_cont(t_philo *philo)
 {
@@ -43,7 +22,8 @@ void	ft_init_philo_cont(t_philo *philo)
 	philo->death = sem_open("death", O_CREAT, 0644, 1);
 	sem_unlink("stop");
 	philo->stop = sem_open("stop", O_CREAT, 0644, 1);
-	philo->philo_data = malloc(sizeof(t_philo_data) * philo->number_of_philo);
+	sem_unlink("eat");
+	philo->eat = sem_open("eat", O_CREAT, 0644, 0);
 }
 
 int	ft_check_num(int ac, char **av)

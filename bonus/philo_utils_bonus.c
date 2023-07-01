@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/04 19:01:59 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:59:25 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	print_time(char *s, t_philo_data *data)
 	long			t;
 
 	t = get_time();
-	// sem_wait(data->vars->print);
+	sem_wait(data->vars->print);
 	printf("%ld	%d %s", t - data->time, data->x, s);
-	// sem_post(data->vars->print);
+	sem_post(data->vars->print);
 }
 
 void	ft_usleep(int i)

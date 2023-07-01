@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:01:10 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/04 18:51:12 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/01 14:17:20 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	philo_free(t_philo *philo)
 	pthread_mutex_destroy(&philo->check);
 	pthread_mutex_destroy(&philo->stop);
 	free(philo->philo_data);
-	free(philo);
 }
 
 int	main(int ac, char **av)

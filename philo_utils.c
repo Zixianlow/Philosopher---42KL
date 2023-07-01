@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/02/22 17:48:36 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/01 14:16:26 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_time(char *s, t_philo_data *data)
 
 	gettimeofday(&(time), NULL);
 	t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	pthread_mutex_lock(&(data->vars->printing));
+	// pthread_mutex_lock(&(data->vars->printing));
 	pthread_mutex_lock(&(data->vars->check));
 	if (data->vars->finish_time)
 	{
@@ -71,7 +71,7 @@ void	print_time(char *s, t_philo_data *data)
 			printf("%ld	%d %s", t - data->vars->time, data->x, s);
 		pthread_mutex_unlock(&data->vars->stop);
 	}
-	pthread_mutex_unlock(&(data->vars->printing));
+	// pthread_mutex_unlock(&(data->vars->printing));
 	pthread_mutex_unlock(&(data->vars->check));
 }
 
