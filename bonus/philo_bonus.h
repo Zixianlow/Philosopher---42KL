@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:05:37 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/19 21:01:46 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:30:17 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ int		ft_init_philo(t_philo *philo, int ac, char **av);
 int		ft_atoi(const char *str);
 long	get_time(void);
 void	print_time(char *s, t_philo_data *data);
-void	ft_usleep(int i);
+void	ft_usleep(int i, t_philo_data *data);
 
 #endif

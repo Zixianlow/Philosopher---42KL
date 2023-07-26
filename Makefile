@@ -6,7 +6,7 @@
 #    By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 17:48:55 by lzi-xian          #+#    #+#              #
-#    Updated: 2023/07/01 14:19:44 by lzi-xian         ###   ########.fr        #
+#    Updated: 2023/07/26 16:11:02 by lzi-xian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ $(NAME):
 	${GCC} ${CFLAGS} ${SRCS} -o $(NAME)
 
 $(BONUS_NAME):
-	${GCC} ${CFLAGS} ${BONUS_SRCS} -o ${BONUS_NAME}
+	${GCC} ${CFLAGS} ${BONUS_SRCS} -o ${BONUS_NAME} -fsanitize=thread -g3
 
 bonus:	$(BONUS_NAME)
 

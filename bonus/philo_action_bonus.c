@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 15:47:38 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/22 15:16:14 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:30:49 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_odd_sleep(t_philo_data *data)
 	if (data->x % 2 == 1)
 	{
 		print_time("is thinking\n", data);
-		ft_usleep(data->vars->time_to_eat);
+		ft_usleep(data->vars->time_to_eat, data);
 	}
 }
 
@@ -31,7 +31,7 @@ void	philo_fork(t_philo_data *data)
 	sem_wait(data->vars->death);
 	data->eat = get_time();
 	sem_post(data->vars->death);
-	ft_usleep(data->vars->time_to_eat);
+	ft_usleep(data->vars->time_to_eat, data);
 	sem_wait(data->vars->death);
 	if (data->eat_count != -1)
 	{
@@ -49,9 +49,8 @@ void	*ft_check_death(void	*philo_data)
 	t_philo_data	*data;
 
 	data = (t_philo_data *)philo_data;
-	while (get_time() - data->time > data->vars->time_to_die)
+	while (1)
 	{
-		ft_usleep(data->vars->time_to_die / 2);
 		sem_wait(data->vars->death);
 		if (get_time() - data->eat > data->vars->time_to_die)
 		{
@@ -75,7 +74,7 @@ void	ft_philo_start(t_philo_data *data)
 	{
 		philo_fork(data);
 		print_time("is sleeping\n", data);
-		ft_usleep(data->vars->time_to_sleep);
+		ft_usleep(data->vars->time_to_sleep, data);
 		print_time("is thinking\n", data);
 	}
 }

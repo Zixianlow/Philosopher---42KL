@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/05/19 20:59:25 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:29:56 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ int	ft_atoi(const char *str)
 long	get_time(void)
 {
 	struct timeval	time;
-	long			t;
 
 	gettimeofday(&(time), NULL);
-	t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (t);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 void	print_time(char *s, t_philo_data *data)
 {
 	long			t;
 
+	sem_wait(data->vars->death);
 	t = get_time();
+	sem_post(data->vars->death);
 	sem_wait(data->vars->print);
 	printf("%ld	%d %s", t - data->time, data->x, s);
 	sem_post(data->vars->print);
