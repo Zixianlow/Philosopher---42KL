@@ -6,7 +6,11 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
+<<<<<<< HEAD:bonus/philo_utils_bonus.c
 /*   Updated: 2023/07/26 16:29:56 by lzi-xian         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/04 19:01:59 by lzi-xian         ###   ########.fr       */
+>>>>>>> parent of c59d58f... Final update:bon/philo_utils_bonus.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +58,14 @@ void	print_time(char *s, t_philo_data *data)
 
 	sem_wait(data->vars->death);
 	t = get_time();
+<<<<<<< HEAD:bonus/philo_utils_bonus.c
 	sem_post(data->vars->death);
 	sem_wait(data->vars->print);
+=======
+	// sem_wait(data->vars->print);
+>>>>>>> parent of c59d58f... Final update:bon/philo_utils_bonus.c
 	printf("%ld	%d %s", t - data->time, data->x, s);
-	sem_post(data->vars->print);
+	// sem_post(data->vars->print);
 }
 
 void	ft_usleep(int i)
