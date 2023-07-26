@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:28:23 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/02/16 20:06:34 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/01 14:16:08 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_init_philo_cont(t_philo *philo)
 	philo->b = philo->timeval.tv_usec;
 	philo->time = (philo->a * 1000) + (philo->b / 1000);
 	pthread_mutex_init(&(philo->eating), NULL);
-	pthread_mutex_init(&(philo->printing), NULL);
+	// pthread_mutex_init(&(philo->printing), NULL);
 	pthread_mutex_init(&(philo->death), NULL);
 	pthread_mutex_init(&(philo->check), NULL);
 	pthread_mutex_init(&(philo->stop), NULL);
