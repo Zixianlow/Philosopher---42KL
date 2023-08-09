@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:28:23 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/07/01 14:16:08 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/08/09 21:13:30 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	ft_create_and_join_thread(t_philo *philo)
 {
 	int				i;
 	t_philo_data	*data;
+	pthread_t		t;
 
 	i = 0;
+	pthread_create(&t, NULL, &ft_check_death, philo);
+	pthread_detach(t);
 	data = philo->philo_data;
 	while (i < philo->number_of_philo)
 	{
@@ -61,19 +64,15 @@ void	ft_init_philo_data(t_philo *philo)
 
 void	ft_init_philo_cont(t_philo *philo)
 {
-	if (philo->time_to_eat > philo->time_to_sleep)
-		philo->eat_sleep_gap = philo->time_to_eat - philo->time_to_sleep;
-	else
-		philo->eat_sleep_gap = 0;
+	philo->done = 0;
 	philo->dead = 0;
 	philo->finish_time = 0;
-	philo->dead_count = 0;
 	gettimeofday(&(philo->timeval), NULL);
 	philo->a = philo->timeval.tv_sec;
 	philo->b = philo->timeval.tv_usec;
 	philo->time = (philo->a * 1000) + (philo->b / 1000);
 	pthread_mutex_init(&(philo->eating), NULL);
-	// pthread_mutex_init(&(philo->printing), NULL);
+	pthread_mutex_init(&(philo->printing), NULL);
 	pthread_mutex_init(&(philo->death), NULL);
 	pthread_mutex_init(&(philo->check), NULL);
 	pthread_mutex_init(&(philo->stop), NULL);
@@ -116,6 +115,7 @@ int	ft_init_philo(t_philo *philo, int ac, char **av)
 		philo->need_eat_times = ft_atoi(av[5]);
 	else
 		philo->need_eat_times = -1;
+	philo->unlucky = 0;
 	ft_init_philo_cont(philo);
 	return (0);
 }

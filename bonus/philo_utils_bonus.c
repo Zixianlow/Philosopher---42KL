@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/07/26 20:54:29 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:00:20 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ long	ft_time_diff(struct timeval time, long now)
 {
 	return (now - (time.tv_sec * 1000) - (time.tv_usec / 1000));
 }
-
 
 void	print_time(char *s, t_philo_data *data)
 {

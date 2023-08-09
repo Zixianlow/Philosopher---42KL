@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 15:47:38 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/07/26 20:58:36 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:03:05 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_odd_sleep(t_philo_data *data)
 {
+	if (data->vars->number_of_philo == 1)
+		return ;
 	if (data->x % 2 == 1)
 	{
 		print_time("is thinking\n", data);
@@ -34,9 +36,9 @@ void	philo_fork(t_philo_data *data)
 		if (data->eat_count == data->vars->need_eat_times)
 			sem_post(data->vars->eat);
 	}
-	// sem_wait(data->vars->death);
-	// sem_post(data->vars->death);
+	sem_wait(data->vars->death);
 	gettimeofday(&(data->eat), NULL);
+	sem_post(data->vars->death);
 	ft_usleep(data->vars->time_to_eat);
 	sem_post(data->vars->forks);
 	sem_post(data->vars->forks);

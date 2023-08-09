@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:03:59 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/07/01 14:16:26 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:38:08 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,53 +57,16 @@ void	print_time(char *s, t_philo_data *data)
 
 	gettimeofday(&(time), NULL);
 	t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	// pthread_mutex_lock(&(data->vars->printing));
-	pthread_mutex_lock(&(data->vars->check));
-	if (data->vars->finish_time)
-	{
-		if (data->vars->dead == 0 && t < data->vars->finish_time)
-			printf("%ld	%d %s", t - data->vars->time, data->x, s);
-	}
-	else
-	{
-		pthread_mutex_lock(&data->vars->stop);
-		if (data->vars->dead == 0)
-			printf("%ld	%d %s", t - data->vars->time, data->x, s);
-		pthread_mutex_unlock(&data->vars->stop);
-	}
-	// pthread_mutex_unlock(&(data->vars->printing));
-	pthread_mutex_unlock(&(data->vars->check));
+	pthread_mutex_lock(&(data->vars->printing));
+	printf("%ld	%d %s", t - data->vars->time, data->x, s);
+	pthread_mutex_unlock(&(data->vars->printing));
 }
 
-int	check_dead(t_philo_data *data)
-{
-	long	t;
-
-	t = get_time();
-	if (t - data->time > data->vars->time_to_die)
-	{
-		pthread_mutex_lock(&data->vars->death);
-		if (data->vars->dead_count == 0)
-			print_time("died\n", data);
-		pthread_mutex_lock(&data->vars->stop);
-		data->vars->dead = 1;
-		pthread_mutex_unlock(&data->vars->stop);
-		data->vars->dead_count++;
-		pthread_mutex_unlock(&data->vars->death);
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_usleep(int i, t_philo_data *data)
+void	ft_usleep(int i)
 {
 	long			t;
 
 	t = get_time();
 	while (get_time() - t < i)
-	{
-		if (check_dead(data) == 1)
-			return ;
 		usleep(100);
-	}
 }

@@ -6,7 +6,7 @@
 #    By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 17:48:55 by lzi-xian          #+#    #+#              #
-#    Updated: 2023/07/26 21:00:58 by lzi-xian         ###   ########.fr        #
+#    Updated: 2023/08/09 21:30:34 by lzi-xian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME		=	philo
 BONUS_NAME	=	philo_bonus
 SRCS		=	main.c				\
 				philo_action.c		\
+				philo_death.c		\
 				philo_init.c		\
 				philo_utils.c
 BONUS_SRCS	=	bonus/main_bonus.c			\

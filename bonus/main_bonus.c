@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:01:10 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/07/26 20:48:23 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:57:18 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ void	ft_create_philo(t_philo *philo)
 		data.eat_count = 0;
 	else
 		data.eat_count = -1;
+	philo->time = get_time();
 	while (i < philo->number_of_philo)
 	{
 		data.x = i + 1;
-		data.time = get_time();
+		data.time = philo->time;
 		gettimeofday(&(data.eat), NULL);
 		data.pid = fork();
 		if (data.pid == 0)
@@ -63,7 +64,6 @@ void	ft_create_philo(t_philo *philo)
 			exit(0);
 		}
 		i++;
-		usleep(500);
 	}
 	ft_full_eat(philo);
 }

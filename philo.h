@@ -6,7 +6,7 @@
 /*   By: lzi-xian <lzi-xian@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:05:37 by lzi-xian          #+#    #+#             */
-/*   Updated: 2023/07/26 17:04:03 by lzi-xian         ###   ########.fr       */
+/*   Updated: 2023/08/09 21:13:50 by lzi-xian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ typedef struct s_philo
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					need_eat_times;
-	int					eat_sleep_gap;
 	int					dead;
+	int					done;
 	int					dead_count;
+	int					unlucky;
 	long				finish_time;
 	long				a;
 	long				b;
@@ -59,6 +60,7 @@ int		ft_init_philo(t_philo *philo, int ac, char **av);
 int		ft_atoi(const char *str);
 long	get_time(void);
 void	print_time(char *s, t_philo_data *data);
-void	ft_usleep(int i, t_philo_data *data);
+void	ft_usleep(int i);
+void	*ft_check_death(void *phi);
 
 #endif
